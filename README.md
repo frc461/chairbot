@@ -1,4 +1,8 @@
-## `ucpp` Setup
+# ChairBot
+
+This is the code for our multi-season chair bot.
+
+## [`ucpp`](https://github.com/nikitakit/ucpp) Setup
 
 If you want to deploy this code to your robot using `ucpp`, first ensure that you have `ucpp` installed on your system.
 
