@@ -1,5 +1,6 @@
 #include <math.h>
 #include "WPILib.h"
+#include "AnalogPotentiometer.h"
 #include "ChairBot.h"
 
 #define master_js_null_zone 0.06
@@ -28,7 +29,7 @@ ChairBot::ChairBot(void):
 	stick_s(j_joystick),
 	pot_x(an_joystick_x),
 	pot_y(an_joystick_y),
-	pot_z(an_joystick_pot)
+	pot_s(an_joystick_pot)
 {
 	/*
 	 * Configure the joysticks to have the correct channels.
@@ -159,10 +160,10 @@ void ChairBot::TeleopPeriodic()
 		          (s_values[0x9] ? "a" : ""),
 		          (s_values[0xa] ? "b" : ""),
 		          (s_values[0xb] ? "c" : ""));
-		b->Printf(b-kUser_Line5, 1, "x: %f y: %f z: %f",
+		b->Printf(b->kUser_Line5, 1, "x: %f y: %f z: %f",
 		          pot_x.Get(),
 		          pot_y.Get(),
-		          pot_z.Get());
+		          pot_s.Get());
 		b->UpdateLCD();
 	}
 

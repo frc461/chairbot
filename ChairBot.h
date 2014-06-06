@@ -75,7 +75,7 @@ class ChairBot : public IterativeRobot
 
 	AnalogPotentiometer pot_x;
 	AnalogPotentiometer pot_y;
-	AnalogPotentiometer pot_z;
+	AnalogPotentiometer pot_s;
 
 public:
 	ChairBot();
