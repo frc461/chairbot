@@ -2,6 +2,10 @@
 #include "WPILib.h"
 #include "ChairBot.h"
 
+#define master_js_null_zone 0.06
+#define left_js_null_zone master_js_null_zone
+#define right_js_null_zone master_js_null_zone
+
 #define master_power_factor 1.0
 #define master_trigger_power_factor 0.25
 
@@ -73,7 +77,7 @@ void ChairBot::SetJoystickButtonValueRegister(Joystick *joystick, vector<bool> *
 /*
  * Runs when Teleop Starts.
  */
-void TeleopInit()
+void ChairBot::TeleopInit()
 {
 	myRobot.SetSafetyEnabled(false);
 }
