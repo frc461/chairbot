@@ -25,7 +25,10 @@
 
 ChairBot::ChairBot(void):
 	myRobot(dt_pwm_front_left, dt_pwm_rear_left, dt_pwm_front_right, dt_pwm_rear_right),
-	stick_s(j_joystick)
+	stick_s(j_joystick),
+	pot_x(an_joystick_x),
+	pot_y(an_joystick_y),
+	pot_z(an_joystick_pot)
 {
 	/*
 	 * Configure the joysticks to have the correct channels.
@@ -156,6 +159,10 @@ void ChairBot::TeleopPeriodic()
 		          (s_values[0x9] ? "a" : ""),
 		          (s_values[0xa] ? "b" : ""),
 		          (s_values[0xb] ? "c" : ""));
+		b->Printf(b-kUser_Line5, 1, "x: %f y: %f z: %f",
+		          pot_x.Get(),
+		          pot_y.Get(),
+		          pot_z.Get());
 		b->UpdateLCD();
 	}
 

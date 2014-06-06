@@ -15,6 +15,12 @@ enum RobotMiscellaneousPorts {
 	m_rel_aim_confirm_led = 2
 };
 
+enum AnalogInputPorts {
+	an_joystick_x = 1,
+	an_joystick_y = 2,
+	an_joystick_pot = 3
+};
+
 enum RobotJoystickPorts {
 	j_1 = 1,
 	j_2 = 2,
@@ -66,6 +72,10 @@ class ChairBot : public IterativeRobot
 	float s_z_prev;
 
 	float drive_speed_ain_value;
+
+	AnalogPotentiometer pot_x;
+	AnalogPotentiometer pot_y;
+	AnalogPotentiometer pot_z;
 
 public:
 	ChairBot();
