@@ -21,6 +21,11 @@ enum AnalogInputPorts {
 	an_joystick_pot = 3
 };
 
+enum DigitalInputPorts {
+	dg_input_trig = 1,
+	dg_input_top = 2
+};
+
 enum RobotJoystickPorts {
 	j_1 = 1,
 	j_2 = 2,
@@ -73,10 +78,18 @@ class ChairBot : public IterativeRobot
 
 	float drive_speed_ain_value;
 
-	AnalogPotentiometer pot_x;
-	AnalogPotentiometer pot_y;
-	AnalogPotentiometer pot_s;
-
+	AnalogChannel pot_x;
+	AnalogChannel pot_y;
+	AnalogChannel pot_s;
+	
+	DigitalInput btn_trig;
+	DigitalInput btn_top;
+	
+	int init_x;
+	int init_y;
+	
+	int mod_x;
+	int mod_y;
 public:
 	ChairBot();
 

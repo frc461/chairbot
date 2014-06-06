@@ -1,6 +1,5 @@
 #include <math.h>
 #include "WPILib.h"
-#include "AnalogPotentiometer.h"
 #include "ChairBot.h"
 
 #define master_js_null_zone 0.06
@@ -24,12 +23,16 @@
 #define smoothing_z_curr_factor 1.0
 #define smoothing_z_factor_total (smoothing_z_prev_factor + smoothing_z_curr_factor)
 
+#define deadzone_joystick 15
+
 ChairBot::ChairBot(void):
 	myRobot(dt_pwm_front_left, dt_pwm_rear_left, dt_pwm_front_right, dt_pwm_rear_right),
 	stick_s(j_joystick),
 	pot_x(an_joystick_x),
 	pot_y(an_joystick_y),
-	pot_s(an_joystick_pot)
+	pot_s(an_joystick_pot),
+	btn_trig(dg_input_trig),
+	btn_top(dg_input_top)
 {
 	/*
 	 * Configure the joysticks to have the correct channels.
@@ -84,6 +87,12 @@ void ChairBot::SetJoystickButtonValueRegister(Joystick *joystick, vector<bool> *
 void ChairBot::TeleopInit()
 {
 	myRobot.SetSafetyEnabled(false);
+	init_x = pot_x.GetValue();
+	init_y = pot_y.GetValue();
+	if (init_x == 0) 
+		init_x++;
+	if (init_y == 0)
+		init_y++;
 }
 
 /*
@@ -91,6 +100,7 @@ void ChairBot::TeleopInit()
  */
 void ChairBot::TeleopPeriodic()
 {
+	SetJoystickButtonValueRegister
 	/*
 	 * Grab values from all of the joysticks as the raw values.
 	 */
@@ -144,10 +154,10 @@ void ChairBot::TeleopPeriodic()
 		 * Print out the Joystick values onto the User Messages screen.
 		 */
 		b->Clear();
-		b->Printf(b->kUser_Line2, 1, "x%0.4f", s_x);
-		b->Printf(b->kUser_Line3, 1, "y%0.4f", s_y);
-		b->Printf(b->kUser_Line4, 1, "z%0.4f", s_z);
-		b->Printf(b->kUser_Line6, 1, "s %s%s%s%s%s%s%s%s%s%s%s%s",
+		b->Printf(b->kUser_Line1, 1, "x%0.4f", s_x);
+		b->Printf(b->kUser_Line2, 1, "y%0.4f", s_y);
+		b->Printf(b->kUser_Line3, 1, "z%0.4f", s_z);
+		b->Printf(b->kUser_Line4, 1, "s %s%s%s%s%s%s%s%s%s%s%s%s",
 		          (s_values[0x0] ? "1" : ""),
 		          (s_values[0x1] ? "2" : ""),
 		          (s_values[0x2] ? "3" : ""),
@@ -160,10 +170,13 @@ void ChairBot::TeleopPeriodic()
 		          (s_values[0x9] ? "a" : ""),
 		          (s_values[0xa] ? "b" : ""),
 		          (s_values[0xb] ? "c" : ""));
-		b->Printf(b->kUser_Line5, 1, "x: %f y: %f z: %f",
-		          pot_x.Get(),
-		          pot_y.Get(),
-		          pot_s.Get());
+		b->Printf(b->kUser_Line5, 1, "trig: %d top: %d",
+				  btn_trig.Get(),
+				  btn_top.Get());
+		b->Printf(b->kUser_Line6, 1, "x: %d y: %d z: %d ",
+		          pot_x.GetValue(),
+		          pot_y.GetValue(),
+		          pot_s.GetValue());
 		b->UpdateLCD();
 	}
 
