@@ -60,10 +60,14 @@ class ChairBot : public IterativeRobot
 {
 	RobotDrive myRobot;
 	Joystick stick_s;
+	Joystick stick_ea;
+	Joystick stick_eb;
 	DriverStation *ds;
 	DriverStationLCD *b;
 
 	vector<bool> s_values;
+	vector<bool> a_values;
+	vector<bool> b_values;
 	float s_x_raw;
 	float s_y_raw;
 	float s_z_raw;
@@ -81,13 +85,16 @@ class ChairBot : public IterativeRobot
 	AnalogChannel pot_x;
 	AnalogChannel pot_y;
 	AnalogChannel pot_s;
-	
+
 	DigitalInput btn_trig;
 	DigitalInput btn_top;
-	
-	int init_x;
-	int init_y;
-	
+
+	int init_pot_x;
+	int init_pot_y;
+
+	int val_pot_x;
+	int val_pot_y;
+
 	int mod_x;
 	int mod_y;
 public:

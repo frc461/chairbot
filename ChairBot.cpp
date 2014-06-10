@@ -23,11 +23,17 @@
 #define smoothing_z_curr_factor 1.0
 #define smoothing_z_factor_total (smoothing_z_prev_factor + smoothing_z_curr_factor)
 
-#define deadzone_joystick 15
+#define deadzone_pots 15
+#define pot_max_y 900
+#define pot_min_y 100
+#define pot_max_x 900
+#define pot_min_x 100
 
 ChairBot::ChairBot(void):
 	myRobot(dt_pwm_front_left, dt_pwm_rear_left, dt_pwm_front_right, dt_pwm_rear_right),
 	stick_s(j_joystick),
+	stick_ea(j_3),
+	stick_eb(j_4),
 	pot_x(an_joystick_x),
 	pot_y(an_joystick_y),
 	pot_s(an_joystick_pot),
@@ -87,12 +93,8 @@ void ChairBot::SetJoystickButtonValueRegister(Joystick *joystick, vector<bool> *
 void ChairBot::TeleopInit()
 {
 	myRobot.SetSafetyEnabled(false);
-	init_x = pot_x.GetValue();
-	init_y = pot_y.GetValue();
-	if (init_x == 0) 
-		init_x++;
-	if (init_y == 0)
-		init_y++;
+	init_pot_x = pot_x.GetValue();
+	init_pot_y = pot_y.GetValue();
 }
 
 /*
@@ -100,25 +102,52 @@ void ChairBot::TeleopInit()
  */
 void ChairBot::TeleopPeriodic()
 {
-	SetJoystickButtonValueRegister
 	/*
 	 * Grab values from all of the joysticks as the raw values.
 	 */
-	s_x_raw = stick_s.GetX();
-	s_y_raw = stick_s.GetY();
-	s_z_raw = stick_s.GetZ();
-
 	SetJoystickButtonValueRegister( &stick_s,  &s_values);
+	SetJoystickButtonValueRegister( &stick_ea,  &a_values);
+	SetJoystickButtonValueRegister( &stick_eb,  &b_values);
+	if (b_values[0x4]) {
+		s_x_raw = stick_s.GetX();
+		s_y_raw = stick_s.GetY();
+		s_z_raw = stick_s.GetZ();
 
-	/*
-	 * Get the trigger values.
-	 */
-	bool s_t = s_values[0x0];
+		/*
+		 * Get the trigger values.
+		 */
+		bool s_t = s_values[0x0];
 
-	if(s_t) {
-		s_x_raw = 0.0;
-		s_y_raw = 0.0;
-		s_z_raw = 0.0;
+		if(s_t) {
+			s_x_raw = 0.0;
+			s_y_raw = 0.0;
+			s_z_raw = 0.0;
+		}
+	}
+	else {
+		/*
+		 * Gets the raw pot values and then turns it into a raw x value
+		 * from 1.0 to -1.0 exclusive (fingers crossed).
+		 * If w/i the dead zone then raw values equal 0.
+		 */
+		val_pot_x = pot_x.GetValue();
+		val_pot_y = pot_y.GetValue();
+
+		/*
+		 * Dead zone stuffz
+		 */
+		if ( abs( val_pot_x - init_pot_x ) < deadzone_pots ) {
+			s_x_raw = 0;
+		}
+		else {
+			s_x_raw = 2 * (val_pot_x - init_pot_x) / (pot_max_x - pot_min_x);
+		}
+		if ( abs( val_pot_y - init_pot_y ) < deadzone_pots ) {
+			s_y_raw = 0;
+		}
+		else {
+			s_y_raw = 2 * (val_pot_y - init_pot_y) / (pot_max_y - pot_min_y);
+		}
 	}
 
 	drive_speed_ain_value = ds->GetAnalogIn(2);
