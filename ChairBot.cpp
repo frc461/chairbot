@@ -23,10 +23,10 @@
 #define smoothing_z_curr_factor 1.0
 #define smoothing_z_factor_total (smoothing_z_prev_factor + smoothing_z_curr_factor)
 
-#define deadzone_pots 15
-#define pot_max_y 900
-#define pot_min_y 100
-#define pot_max_x 550
+#define deadzone_pots 5
+#define pot_max_y 100
+#define pot_min_y 0
+#define pot_max_x 700
 #define pot_min_x 30
 
 ChairBot::ChairBot(void):
@@ -148,6 +148,12 @@ void ChairBot::TeleopPeriodic()
 		else {
 			s_y_raw = 2 * (val_pot_y - init_pot_y) / (pot_max_y - pot_min_y);
 		}
+
+		if (!(bool)btn_trig.Get()) {
+			s_x_raw = 0.0;
+			s_y_raw = 0.0;
+		}
+
 	}
 
 	drive_speed_ain_value = ds->GetAnalogIn(2);
