@@ -26,8 +26,8 @@
 #define deadzone_pots 15
 #define pot_max_y 900
 #define pot_min_y 100
-#define pot_max_x 900
-#define pot_min_x 100
+#define pot_max_x 550
+#define pot_min_x 30
 
 ChairBot::ChairBot(void):
 	myRobot(dt_pwm_front_left, dt_pwm_rear_left, dt_pwm_front_right, dt_pwm_rear_right),
