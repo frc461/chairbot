@@ -66,8 +66,8 @@ class ChairBot : public IterativeRobot
 	DriverStationLCD *b;
 
 	vector<bool> s_values;
-	vector<bool> a_values;
-	vector<bool> b_values;
+	vector<bool> ea_values;
+	vector<bool> eb_values;
 	float s_x_raw;
 	float s_y_raw;
 	float s_z_raw;
@@ -97,6 +97,7 @@ class ChairBot : public IterativeRobot
 
 	int mod_x;
 	int mod_y;
+
 public:
 	ChairBot();
 
@@ -105,4 +106,5 @@ public:
 	void TeleopInit();
 	void TeleopPeriodic();
 };
+
 #endif
