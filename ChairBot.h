@@ -11,10 +11,6 @@ enum RobotDriveTrainPorts {
 	dt_pwm_front_left = 4
 };
 
-enum RobotMiscellaneousPorts {
-	m_rel_aim_confirm_led = 2
-};
-
 enum AnalogInputPorts {
 	an_joystick_x = 1,
 	an_joystick_y = 2,

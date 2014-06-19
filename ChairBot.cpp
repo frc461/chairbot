@@ -5,9 +5,6 @@
 #define joystick_null_zone 0.06
 
 #define master_power_factor 1.0
-#define master_trigger_power_factor 0.25
-
-#define dual_triggers_multiply_again false
 
 #define smoothing_x_prev_factor 49.0
 #define smoothing_x_curr_factor 1.0
