@@ -124,7 +124,7 @@ void ChairBot::TeleopPeriodic()
 	SetJoystickButtonValueRegister( &stick_ea,  &ea_values);
 	SetJoystickButtonValueRegister( &stick_eb,  &eb_values);
 
-	if(eb_values[0x4]) {
+	if(eb_values[0x4] || ds->GetDigitalIn(7)) {
 		/*
 		 * Get the raw joystick axis values from the
 		 * wireless/override stick.
@@ -162,7 +162,7 @@ void ChairBot::TeleopPeriodic()
 		} else {
 			s_x_raw = 2 * (val_pot_x - init_pot_x) / (pot_max_x - pot_min_x);
 		}
-		
+
 		if(abs(val_pot_y - init_pot_y) < deadzone_pots) {
 			s_y_raw = 0;
 		} else {
@@ -174,7 +174,7 @@ void ChairBot::TeleopPeriodic()
 			s_y_raw = 0.0;
 		}
 	}
-	
+
 	/*
 	 * Get AnalogInput #2 from the driver station for future use to limit speed.
 	 */
